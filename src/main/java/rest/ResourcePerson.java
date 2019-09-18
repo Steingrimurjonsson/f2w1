@@ -2,9 +2,9 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import entities.F2w1;
+import entities.Person;
 import utils.EMF_Creator;
-import facades.F2w1Facade;
+import facades.PersonFacade;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -18,80 +18,80 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 //Todo Remove or change relevant parts before ACTUAL use
-@Path("f2f1")
-public class ResourceF2w1 {
+@Path("person")
+public class ResourcePerson {
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory(
                 "pu",
-                "jdbc:mysql://157.230.18.125:3307/f2w1",
+                "jdbc:mysql://157.230.18.125:3307/Person",
                 "dev",
                 "ax2",
                 EMF_Creator.Strategy.CREATE);
-    private static final F2w1Facade FACADE =  F2w1Facade.getF2w1Facade(EMF);
+    private static final PersonFacade FACADE =  PersonFacade.getPersonFacade(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
             
     
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String demo() {
-        return "{\"msg\":\"f2w1\"}";
+        return "{\"msg\":\"Person\"}";
     }
    @Path("populate")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String populate() {
-        FACADE.populateF2w1s();
+        FACADE.populatePersons();
         return "{\"msg\":\"done!\"}";
     }
 
     @Path("{id}")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public String getF2w1ById(@PathParam ("id") int id) {
-        F2w1 F2w1 = FACADE.getF2w1ByID(id);
-        return GSON.toJson(F2w1);
+    public String getPersonById(@PathParam ("id") int id) {
+        Person Person = FACADE.getPersonByID(id);
+        return GSON.toJson(Person);
     }
         @Path("count")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public String getF2w1Count() {
-        long count = FACADE.getF2w1Count();
+    public String getPersonCount() {
+        long count = FACADE.getPersonCount();
         return "{\"count\":"+count+"}";  //Done manually so no need for a DTO
     }
     @Path("all")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public String getAllF2w1s() {
-        List<F2w1>  F2w1s = FACADE.getAllF2w1s();
-        return GSON.toJson(F2w1s);
+    public String getAllPersons() {
+        List<Person>  Persons = FACADE.getAllPersons();
+        return GSON.toJson(Persons);
         
     }
-       @Path("actorsIn/{name}")
+       @Path("hobbiesIn/{name}")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public String getAcotorsByF2w1Name(@PathParam ("name") String name) {
-        List<F2w1>  actors = FACADE.getAcotorsByF2w1Name(name);
-        return GSON.toJson(actors);
+    public String getHobbiesByPersonName(@PathParam ("name") String name) {
+        List<Person>  hobbies = FACADE.getHobbiesByPersonName(name);
+        return GSON.toJson(hobbies);
         
     }
 
     @Path("name/{name}")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public String getF2w1ByName(@PathParam ("name") String name) {
-        List <F2w1> F2w1 = FACADE.getF2w1ByName(name);
-        return GSON.toJson(F2w1);
+    public String getPersonByName(@PathParam ("name") String name) {
+        List <Person> Person = FACADE.getPersonByName(name);
+        return GSON.toJson(Person);
     }
     
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
-    public void create(F2w1 entity) {
+    public void create(Person entity) {
         throw new UnsupportedOperationException();
     }
     
     @PUT
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
-    public void update(F2w1 entity, @PathParam("id") int id) {
+    public void update(Person entity, @PathParam("id") int id) {
         throw new UnsupportedOperationException();
     }
 }
