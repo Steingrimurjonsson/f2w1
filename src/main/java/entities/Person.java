@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,8 +23,9 @@ public class Person implements Serializable {
     private int id;
     private String firstName;
     private String lastName;
-
     private String[] hobbies;
+    private Date created;
+    private Date lastEdited;
 
     public Person() {
     }
@@ -70,7 +72,5 @@ public class Person implements Serializable {
     public void setHobbies(String[] hobbies) {
         this.hobbies = hobbies;
     }
-
-
 
 }

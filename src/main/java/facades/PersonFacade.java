@@ -31,6 +31,19 @@ public class PersonFacade {
         return emf.createEntityManager();
     }
 
+    public interface IPersonFacade {
+
+        public Person addPerson(String firstName, String lastName, String hobbies);
+
+        public Person deletePerson(int id);
+
+        public Person getPerson(int id);
+
+        public List<Person> getAllPersons();
+
+        public Person editPerson(Person p);
+    }
+
     public long getPersonCount() {
         EntityManager em = emf.createEntityManager();
         try {
@@ -88,7 +101,7 @@ public class PersonFacade {
         }
     }
 
-    public List<Person> getHobbiesByPersonName(String firstName) {
+  /*  public List<Person> getHobbiesByPersonName(String firstName) {
         EntityManager em = emf.createEntityManager();
         try {
             TypedQuery<Person> query
@@ -97,7 +110,7 @@ public class PersonFacade {
         } finally {
             em.close();
         }
-    }
+    }*/
 
     public void populatePersons() {
         EntityManager em = emf.createEntityManager();
