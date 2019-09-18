@@ -6,7 +6,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
-        <h1>MOVIES</h1>
+        <h1>Persons</h1>
 
 
         <form>
@@ -28,14 +28,14 @@
             const butY = document.querySelector("#butY");
             const butN = document.querySelector("#butN");
             function userToTable(user) {
-                var tableData = user.map(x => "<tr><td>" + x.id + "</td><td>" + x.name + "</td><td>" + x.year + "</td><td>" + x.actors + "</td></tr>");
+                var tableData = user.map(x => "<tr><td>" + x.id + "</td><td>" + x.firstName + "</td><td>" + x.lastName + "</td><td>" + x.hobbies + "</td></tr>");
                 tableData.unshift("<table class=\"table\"><tr><th>ID</th><th>Name</th><th>Year</th><th>Actors</th></tr>")
                 tableData.push("</table>");
                 return tableData.join('');
             }
             but.onclick = function (e) {
                 e.preventDefault();
-                let url = "https://ruffsacks.com/F2w1/api/F2w1/" + txt.value;
+                let url = "https://ruffsacks.com/f2w1/api/person/" + txt.value;
                 fetch(url)
                         .then(res => res.json())
                         .then(data => {
@@ -45,7 +45,7 @@
 
             but2.onclick = function (e) {
                 e.preventDefault();
-                let url = "https://ruffsacks.com/F2w1/api/F2w1/all";
+                let url = "https://ruffsacks.com/f2w1/api/person/all";
                 fetch(url)
                         .then(res => res.json())
                         .then(data => {
@@ -55,7 +55,7 @@
             }
             butY.onclick = function (e) {
                 e.preventDefault();
-                let url = "https://ruffsacks.com/F2w1/api/F2w1/year" + txt.value;
+                let url = "https://ruffsacks.com/f2w1/api/person/year" + txt.value;
                 ;
                 fetch(url)
                         .then(res => res.json())
@@ -66,7 +66,7 @@
             }
             butN.onclick = function (e) {
                 e.preventDefault();
-                let url = "https://ruffsacks.com/F2w1/api/F2w1/name/" + txt.value;
+                let url = "https://ruffsacks.com/f2w1/api/person/name/" + txt.value;
                 ;
                 fetch(url)
                         .then(res => res.json())
@@ -81,30 +81,14 @@
         <br><br><br><br><br><br><br>
 
         <h1>LINKS TO ASSIGNMENTS!</h1>
-        <a href="https://github.com/Steingrimurjonsson/F2w13Sem">link to github page</a>
+        <a href="https://github.com/Steingrimurjonsson/f2w1">link to github page</a>
         <br>
         <h1>03-09-2019 Testing REST-endpoints</h1>  <br>
-        <a href="https://ruffsacks.com/F2w1/api/F2w1/count">Show count</a>  <br>
-        <a href="https://ruffsacks.com/F2w1/api/F2w1/all">Show all F2w1s</a>  <br>
-        <a href="https://ruffsacks.com/F2w1/api/F2w1/name/De døde heste">Add a name after "/"</a>  <br>
-        <a href="https://ruffsacks.com/F2w1/api/F2w1/1">F2w1 ID</a>  <br>
+        <a href="https://ruffsacks.com/f2w1/api/person/count">Show count</a>  <br>
+        <a href="https://ruffsacks.com/f2w1/api/person/all">Show all persons</a>  <br>
+        <a href="https://ruffsacks.com/f2w1/api/person/name/">Add a name after "/"</a>  <br>
+        <a href="https://ruffsacks.com/f2w1/api/person/1">person ID</a>  <br>
 
-        <h1>04-09-2019 The JavaScript Array + JavaScript Day-1</h1>  <br>
-        <a href="https://ruffsacks.com/F2w1/colorConsole.html">link to both assignments</a>  
-        <a href="https://github.com/Steingrimurjonsson/F2w13Sem/blob/master/src/main/webapp/colorConsole.html">link to file on github</a>  <br>
-        <h1>05-09-2019 Dom Manipulation and Events</h1>  <br>
-        <a href="https://ruffsacks.com/F2w1/domAndEvents.html">Simple DOM manipulation and Event handling + Event Bubbling and event arguments + </a>  
-        <a href="https://github.com/Steingrimurjonsson/F2w13Sem/blob/master/src/main/webapp/domAndEvents.html">link to file on github</a>  <br>
-        <a href="https://ruffsacks.com/F2w1/inputNames.html">Using map to create list’s (ul’s, tables etc.)</a>  
-        <a href="https://github.com/Steingrimurjonsson/F2w13Sem/blob/master/src/main/webapp/inputNames.html">link to file on github</a>  <br>
-        <a href="https://ruffsacks.com/F2w1/table.html">Using map and filter to create dynamic table-rows</a>  
-        <a href="https://github.com/Steingrimurjonsson/F2w13Sem/blob/master/src/main/webapp/table.html">link to file on github</a>  <br>
-        <a href="https://ruffsacks.com/F2w1/calc.html">Implement a simple calculator</a>  
-        <a href="https://github.com/Steingrimurjonsson/F2w13Sem/blob/master/src/main/webapp/calc.html">link to file on github</a>  <br>
-
-        <h1>Getting Started with the fetch-API</h1>  <br>
-        <a href="https://ruffsacks.com/F2w1/getJSONData.html">Dynamic UI manipulation using data obtained via fetch</a> 
-        <a href="https://github.com/Steingrimurjonsson/F2w13Sem/blob/master/src/main/webapp/getJSONData.html">link to file on github</a>  <br>
 
 
     </body>
