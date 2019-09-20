@@ -17,7 +17,7 @@ public class PersonDTO {
     private String fName;
     private String lName;
     private String phone;
-    //private String address;
+    private String address;
     
     public PersonDTO(Person p) {
         this.fName = p.getFirstName();

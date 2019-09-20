@@ -32,18 +32,18 @@ public class Address implements Serializable{
     private String street;
     private String city;
 
-    //@OneToMany(mappedBy = "address", cascade = CascadeType.PERSIST)
-    //private List<Person> persons = new ArrayList();
+    @OneToMany(mappedBy = "address", cascade = CascadeType.PERSIST)
+    private List<Person> persons = new ArrayList();
 
-    //public List<Person> getPersons() {
-   //     return persons;
-   // } 
+    public List<Person> getPersons() {
+        return persons;
+    } 
   
 
     public Address(String street, String city, List<Person> persons) {
         this.street = street;
         this.city = city;
-     //   this.persons = persons;
+        this.persons = persons;
     }
 
 
@@ -82,8 +82,7 @@ public class Address implements Serializable{
 
     @Override
     public String toString() {
-        return "Address{" + "id=" + id + ", street=" + street + ", city=" + city + '}';
-               // return "Address{" + "id=" + id + ", street=" + street + ", city=" + city + ", persons=" + persons + '}';
+        return "Address{" + "id=" + id + ", street=" + street + ", city=" + city + ", persons=" + persons + '}';
     }
 
 }

@@ -29,7 +29,7 @@ public class ResourcePerson {
 
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory(
             "pu",
-            "jdbc:mysql://157.230.18.125:3307/Person",
+            "jdbc:mysql://157.230.18.125:3306/person",
             "dev",
             "ax2",
             EMF_Creator.Strategy.CREATE);

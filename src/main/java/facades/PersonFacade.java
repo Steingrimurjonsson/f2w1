@@ -10,10 +10,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-/**
- *
- * RefirstName Class to a relevant firstName Add add relevant facade methods
- */
+
 public class PersonFacade implements IPersonFacade {
 
     private static PersonFacade instance;
@@ -107,6 +104,8 @@ public class PersonFacade implements IPersonFacade {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
         PersonFacade pf = PersonFacade.getPersonFacade(emf);
+        pf.addPerson("NewP", "NewP", "999");
+        
         
     }
 }

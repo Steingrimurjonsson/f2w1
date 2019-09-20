@@ -33,16 +33,16 @@ public class Person implements Serializable {
     @Temporal(TemporalType.DATE)
     private java.util.Date lastEdited;
 
-   // @OneToOne(cascade = CascadeType.PERSIST)
-  //  private List<Address> address = new ArrayList(); 
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private List<Address> address = new ArrayList(); 
 
-  //  public List<Address> getAddress() {
-  //      return address;
-  //  }
+    public List<Address> getAddress() {
+        return address;
+    }
 
-  //  public void addAddress(Address address){
-  //      this.address.add(address);
-  //  }
+    public void addAddress(Address address){
+        this.address.add(address);
+    }
 
     public String getFirstName() {
         return firstName;
@@ -112,8 +112,7 @@ public class Person implements Serializable {
 
     @Override
     public String toString() {
-        return "Person{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", created=" + created + ", lastEdited=" + lastEdited + '}';
-    // return "Person{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", created=" + created + ", lastEdited=" + lastEdited + ", address=" + address + '}';
+        return "Person{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", created=" + created + ", lastEdited=" + lastEdited + ", address=" + address + '}';
     }
 
 }
