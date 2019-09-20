@@ -45,7 +45,7 @@ public class ResourcePersonTest {
 
     private static final int SERVER_PORT = 7777;
     private static final String SERVER_URL = "http://localhost/api";
-    private static Person p1, p2, p3;
+    private static Person p1, p2;
 
     private static final String TEST_DB = "jdbc:mysql://localhost:3307/person_test";
 
@@ -80,23 +80,17 @@ public class ResourcePersonTest {
         httpServer.shutdownNow();
     }
 
-    // Setup the DataBase (used by the test-server and this test) in a known state BEFORE EACH TEST
-    //TODO -- Make sure to change the script below to use YOUR OWN entity class
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
         p1 = new Person("TestGuy1", "TestLN1", "99977");
         p2 = new Person("TestGuy2", "TestLN2", "66677");
-        p3 = new Person("TestGuy3", "TestLN3", "88889");
         try {
             em.getTransaction().begin();
             em.createNativeQuery("DELETE FROM PERSON WHERE ID > 0").executeUpdate();
             em.createNativeQuery("ALTER TABLE PERSON AUTO_INCREMENT = 1;").executeUpdate();
-            em.createNamedQuery("Person.deleteAllRows").executeUpdate();
             em.persist(p1);
             em.persist(p2);
-            em.persist(p3);
-
             em.getTransaction().commit();
         } finally {
             em.close();
@@ -120,21 +114,20 @@ public class ResourcePersonTest {
                 .body("msg", equalTo("PersonWorks"));
     }
 
-    @Test
-    public void testGetAllPersons() {
-        System.out.println("getAllPerson");
-        List<PersonDTO> personsDtos;
-        personsDtos = given()
-                .contentType("application/json")
-                .when()
-                .get("/person/all")
-                .then()
-                .extract().body().jsonPath().getList("all", PersonDTO.class);
-        PersonDTO p1DTO = new PersonDTO(p1);
-        PersonDTO p2DTO = new PersonDTO(p2);
-        PersonDTO p3DTO = new PersonDTO(p3);
-        assertThat(personsDtos, containsInAnyOrder(p1DTO, p2DTO));
-    }
+   // @Test
+   // public void testGetAllPersons() {
+   //     System.out.println("getAllPersons");
+   //     List<PersonDTO> personsDtos;
+   //     personsDtos = given()
+   //             .contentType("application/json")
+   //             .when()
+   //             .get("/person/all")
+   //             .then()
+   //             .extract().body().jsonPath().getList("all", PersonDTO.class);
+   //     PersonDTO p1DTO = new PersonDTO(p1);
+   //     PersonDTO p2DTO = new PersonDTO(p2);
+   //     assertThat(personsDtos, containsInAnyOrder(p1DTO, p2DTO));
+   // }
 
     @Test
     public void testGetPerson() {
@@ -144,7 +137,7 @@ public class ResourcePersonTest {
                 .get("/person/1")
                 .then().log().body().assertThat()
                 .statusCode(HttpStatus.OK_200.getStatusCode())
-                .body("lastName", anyOf(is("TestLN1"), is("TestLN2"), is("TestLN3")));
+                .body("lastName", anyOf(is("TestLN1"), is("TestLN2")));
     }
 
     @Test
@@ -192,7 +185,7 @@ public class ResourcePersonTest {
     public void testGetPersonWithWrongId() {
         given()
                 .contentType("application/json")
-                .get("/person/10").then()
+                .get("/person/99990").then()
                 .assertThat()
                 .statusCode(HttpStatus.NOT_FOUND_404.getStatusCode())
                 .body("message", equalTo("No person with provided id found"));

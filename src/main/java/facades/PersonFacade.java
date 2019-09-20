@@ -68,8 +68,8 @@ public class PersonFacade implements IPersonFacade {
     public Person getPerson(int id) {
         EntityManager em = emf.createEntityManager();
         try {
-            Person c = em.find(Person.class, id);
-            return c;
+            Person p = em.find(Person.class, id);
+            return p;
         } finally {
             em.close();
         }
