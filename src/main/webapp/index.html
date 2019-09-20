@@ -11,10 +11,8 @@
 
         <form>
             <input type="text" id="txt" placeholder="">
-            <input type="submit" id="but" value="FIND MOVIE BY ID">
-            <input type="submit" id="butY" value="FIND MOVIES BY YEAR">
-            <input type="submit" id="butN" value="FIND MOVIEs BY NAME">
-            <input type="submit" id="but2" value="GET ALL MOVIES">
+
+            <input type="submit" id="but2" value="GET ALL PERSONS">
 
         </form>
 
@@ -28,7 +26,7 @@
             const butY = document.querySelector("#butY");
             const butN = document.querySelector("#butN");
             function userToTable(user) {
-                var tableData = user.map(x => "<tr><td>" + x.id + "</td><td>" + x.firstName + "</td><td>" + x.lastName + "</td><td>" + x.hobbies + "</td></tr>");
+                var tableData = user.map(x => "<tr><td>" + x.id + "</td><td>" + x.fName + "</td><td>" + x.lName + "</td><td>" + x.phone + "</td></tr>");
                 tableData.unshift("<table class=\"table\"><tr><th>ID</th><th>Name</th><th>Year</th><th>Actors</th></tr>")
                 tableData.push("</table>");
                 return tableData.join('');
@@ -82,12 +80,7 @@
 
         <h1>LINKS TO ASSIGNMENTS!</h1>
         <a href="https://github.com/Steingrimurjonsson/f2w1">link to github page</a>
-        <br>
-        <h1>03-09-2019 Testing REST-endpoints</h1>  <br>
-        <a href="https://ruffsacks.com/f2w1/api/person/count">Show count</a>  <br>
-        <a href="https://ruffsacks.com/f2w1/api/person/all">Show all persons</a>  <br>
-        <a href="https://ruffsacks.com/f2w1/api/person/name/">Add a name after "/"</a>  <br>
-        <a href="https://ruffsacks.com/f2w1/api/person/1">person ID</a>  <br>
+        
 
 
 

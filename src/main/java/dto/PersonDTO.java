@@ -5,7 +5,7 @@
  */
 package dto;
 
-import entities.Address;
+
 import entities.Person;
 
 /**
@@ -13,24 +13,29 @@ import entities.Person;
  * @author stein
  */
 public class PersonDTO {
+
     private int id;
     private String fName;
     private String lName;
     private String phone;
-    private String address;
-    
+   // private String address;
+
     public PersonDTO(Person p) {
         this.fName = p.getFirstName();
         this.lName = p.getLastName();
         this.phone = p.getPhone();
         this.id = p.getId();
     }
-    public PersonDTO(String fn,String ln, String phone) {
+
+    public PersonDTO(String fn, String ln, String phone) {
         this.fName = fn;
         this.lName = ln;
-        this.phone = phone;  
+        this.phone = phone;
+        //this.address = address;
     }
-    public PersonDTO() {}
+
+    public PersonDTO() {
+    }
 
     public int getId() {
         return id;
@@ -63,5 +68,11 @@ public class PersonDTO {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+  //  public String getAddress() {
+   //     return address;
+   // }
 
+  //  public void setAddress(String address) {
+   //     this.address = phone;
+  //  }
 }

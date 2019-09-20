@@ -1,6 +1,5 @@
 package facades;
 
-import entities.Address;
 import entities.Person;
 import interfaces.IPersonFacade;
 import java.util.List;

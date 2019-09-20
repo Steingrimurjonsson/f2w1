@@ -29,6 +29,7 @@ public class ResourcePerson {
 
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory(
             "pu",
+            //"jdbc:mysql://localhost:3307/person",
             "jdbc:mysql://157.230.18.125:3306/person",
             "dev",
             "ax2",
@@ -55,7 +56,7 @@ public class ResourcePerson {
     }
 
     @GET
-    @Path("/{id}")
+    @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public String getEmployeeById(@PathParam("id") int id) throws PersonNotFoundException {
         Person p = FACADE.getPerson(id);
@@ -69,8 +70,8 @@ public class ResourcePerson {
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    public String add(String person) throws MissingInputException {
-        Person p = GSON.fromJson(person, Person.class);
+    public String add(String Person) throws MissingInputException {
+        Person p = GSON.fromJson(Person, Person.class);
         Person pAdded = FACADE.addPerson(p.getFirstName(), p.getLastName(), p.getPhone());
         if (p == null) {
             throw new MissingInputException("First Name and/or Last Name is missing");
@@ -92,7 +93,7 @@ public class ResourcePerson {
     }
 
     @DELETE
-    @Path("/{id}")
+    @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public String deleteEmployeeById(@PathParam("id") int id) throws PersonNotFoundException {
         Person p = FACADE.deletePerson(id);
