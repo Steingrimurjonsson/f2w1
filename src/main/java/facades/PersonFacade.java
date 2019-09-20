@@ -1,17 +1,20 @@
 package facades;
 
+import entities.Address;
 import entities.Person;
+import interfaces.IPersonFacade;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
  *
  * RefirstName Class to a relevant firstName Add add relevant facade methods
  */
-public class PersonFacade {
+public class PersonFacade implements IPersonFacade {
 
     private static PersonFacade instance;
     private static EntityManagerFactory emf;
@@ -31,99 +34,79 @@ public class PersonFacade {
         return emf.createEntityManager();
     }
 
-    public interface IPersonFacade {
-
-        public Person addPerson(String firstName, String lastName, String hobbies);
-
-        public Person deletePerson(int id);
-
-        public Person getPerson(int id);
-
-        public List<Person> getAllPersons();
-
-        public Person editPerson(Person p);
-    }
-
-    public long getPersonCount() {
-        EntityManager em = emf.createEntityManager();
-        try {
-            long PersonCount = (long) em.createQuery("SELECT COUNT(m) FROM Person m").getSingleResult();
-            return PersonCount;
-        } finally {
-            em.close();
-        }
-
-    }
-
-    public Person getPersonByID(int id) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            Person Person = em.find(Person.class, id);
-            return Person;
-        } finally {
-            em.close();
-        }
-    }
-
-    public List<Person> getPersonByName(String firstName) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            TypedQuery<Person> query
-                    = em.createQuery("Select m from Person m where m.firstName =:firstName", Person.class);
-            return query.setParameter("firstName", firstName).getResultList();
-        } finally {
-            em.close();
-        }
-    }
-
-    public Person addPerson(String lastName, String firstName, String[] hobbies) {
-        Person Person = new Person();
-        Person = new Person(lastName, firstName, hobbies);
+    @Override
+    public Person addPerson(String fName, String lName, String phone) {
+        Person p = new Person(fName, lName, phone);
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(Person);
+            em.persist(p);
             em.getTransaction().commit();
-            return Person;
+            return p;
         } finally {
             em.close();
         }
     }
 
+    @Override
+    public Person deletePerson(int id) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            Query q1 = em.createQuery("DELETE FROM Person p where p.id = :id")
+                    .setParameter("id", id);
+            em.getTransaction().begin();
+            Person p = getPerson(id);
+            q1.executeUpdate();
+            em.getTransaction().commit();
+            return p;
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public Person getPerson(int id) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            Person c = em.find(Person.class, id);
+            return c;
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
     public List<Person> getAllPersons() {
         EntityManager em = emf.createEntityManager();
         try {
-            TypedQuery query
-                    = em.createQuery("Select m from Person m", Person.class);
-            return query.getResultList();
+            TypedQuery q1 = em.createQuery("Select p from Person p", Person.class);
+            return q1.getResultList();
         } finally {
             em.close();
         }
     }
 
-  /*  public List<Person> getHobbiesByPersonName(String firstName) {
+    @Override
+    public Person editPerson(Person person) {
         EntityManager em = emf.createEntityManager();
         try {
-            TypedQuery<Person> query
-                    = em.createQuery("Select hobbies from Person m where m.firstName =:firstName", Person.class);
-            return query.setParameter("firstName", firstName).getResultList();
-        } finally {
-            em.close();
-        }
-    }*/
-
-    public void populatePersons() {
-        EntityManager em = emf.createEntityManager();
-        try {
+            Query q1 = em.createQuery("UPDATE Person p SET p.firstName = :firstName, p.lastName = :lastName, p.phone = :phone WHERE p.id = :id")
+                    .setParameter("firstName", person.getFirstName())
+                    .setParameter("lastName", person.getLastName())
+                    .setParameter("phone", person.getPhone())
+                    .setParameter("id", person.getId());
             em.getTransaction().begin();
-            em.createNamedQuery("Person.deleteAllRows").executeUpdate();
-            em.persist(new Person("Firstname1", "Lastname1", new String[]{"h1", "h2", "h3"}));
-            em.persist(new Person("Firstname2", "Lastname2", new String[]{"h4", "h5", "h6"}));
-            em.persist(new Person("Firstname3", "Lastname3", new String[]{"h7", "h8", "h9"}));
-            em.persist(new Person("Firstname4", "Lastname4", new String[]{"h10", "h11", "h12"}));
+            q1.executeUpdate();
             em.getTransaction().commit();
+            return getPerson(person.getId());
         } finally {
             em.close();
         }
+    }
+
+    public static void main(String[] args) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
+        PersonFacade pf = PersonFacade.getPersonFacade(emf);
+        
     }
 }

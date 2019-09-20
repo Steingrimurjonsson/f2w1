@@ -1,20 +1,22 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 
 @Entity
-@NamedQueries({
-    @NamedQuery(name = "Person.deleteAllRows", query = "DELETE from Person"),
-    @NamedQuery(name = "Person.getAll", query = "SELECT m FROM Person m"),
-    @NamedQuery(name = "Person.getByName", query = "SELECT m FROM Person m WHERE m.firstName LIKE :firstName")
-})
+@NamedQuery(name = "Person.deleteAllRows", query = "DELETE from Person")
 public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,30 +25,19 @@ public class Person implements Serializable {
     private int id;
     private String firstName;
     private String lastName;
-    private String[] hobbies;
-    private Date created;
-    private Date lastEdited;
+    private String phone;
+    private java.util.Date created;
+    private java.util.Date lastEdited;
 
-    public Person() {
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private List<Address> address = new ArrayList(); 
+
+    public List<Address> getAddress() {
+        return address;
     }
 
-    public Person(String lastName, String firstName, String[] hobbies) {
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.hobbies = hobbies;
-    }
-
-    @Override
-    public String toString() {
-        return "Person{" + "id=" + id + ", lastName=" + lastName + ", firstName=" + firstName + ", hobbies=" + hobbies + '}';
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void addAddress(Address address){
+        this.address.add(address);
     }
 
     public String getFirstName() {
@@ -65,12 +56,59 @@ public class Person implements Serializable {
         this.lastName = lastName;
     }
 
-    public String[] getHobbies() {
-        return hobbies;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setHobbies(String[] hobbies) {
-        this.hobbies = hobbies;
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getLastEdited() {
+        return lastEdited;
+    }
+
+    public void setLastEdited(Date lastEdited) {
+        this.lastEdited = lastEdited;
+    }
+
+    public Person(String firstName, String lastName, String phone) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+       // this.address = address;
+    }
+
+    public Person(Person person) {
+        this.firstName = person.getFirstName();
+        this.lastName = person.getLastName();
+        this.phone = person.getPhone();
+      //  this.address = person.getAddress();
+
+    }
+
+    public Person() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", created=" + created + ", lastEdited=" + lastEdited + ", address=" + address + '}';
     }
 
 }

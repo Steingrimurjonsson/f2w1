@@ -5,6 +5,7 @@
  */
 package dto;
 
+import entities.Address;
 import entities.Person;
 
 /**
@@ -13,20 +14,21 @@ import entities.Person;
  */
 public class PersonDTO {
     private int id;
-    private String firstName;
-    private String lastName;
-    private String[] hobbies;
+    private String fName;
+    private String lName;
+    private String phone;
+    private String address;
     
     public PersonDTO(Person p) {
-        this.firstName = p.getFirstName();
-        this.lastName = p.getLastName();
-        this.hobbies = p.getHobbies();
+        this.fName = p.getFirstName();
+        this.lName = p.getLastName();
+        this.phone = p.getPhone();
         this.id = p.getId();
     }
-    public PersonDTO(String fn,String ln, String[] hobbies) {
-        this.firstName = fn;
-        this.lastName = ln;
-        this.hobbies = hobbies;        
+    public PersonDTO(String fn,String ln, String phone) {
+        this.fName = fn;
+        this.lName = ln;
+        this.phone = phone;  
     }
     public PersonDTO() {}
 
@@ -38,28 +40,28 @@ public class PersonDTO {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getfName() {
+        return fName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setfName(String fName) {
+        this.fName = fName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getlName() {
+        return lName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setlName(String lName) {
+        this.lName = lName;
     }
 
-    public String[] getHobbies() {
-        return hobbies;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setHobbies(String[] hobbies) {
-        this.hobbies = hobbies;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
-       
+
 }

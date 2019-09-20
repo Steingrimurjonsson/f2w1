@@ -1,8 +1,11 @@
 package rest;
 
+import Exceptions.MissingInputException;
+import Exceptions.PersonNotFoundException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dto.PersonDTO;
+import dto.PersonsDTO;
 import entities.Person;
 import utils.EMF_Creator;
 import facades.PersonFacade;
@@ -36,109 +39,66 @@ public class ResourcePerson {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String demo() {
-        return "{\"msg\":\"Person\"}";
+        return "{\"msg\":\"PersonWorks\"}";
     }
-
-    @Path("populate")
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
-    public String populate() {
-        FACADE.populatePersons();
-        return "{\"msg\":\"done!\"}";
-    }
-
-    @Path("{id}")
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
-    public String getPersonById(@PathParam("id") int id) {
-        Person Person = FACADE.getPersonByID(id);
-        return GSON.toJson(Person);
-    }
-
-    @Path("count")
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
-    public String getPersonCount() {
-        long count = FACADE.getPersonCount();
-        return "{\"count\":" + count + "}";  //Done manually so no need for a DTO
-    }
-
-    @Path("all")
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
-    public String getAllPersons() {
-        List<Person> Persons = FACADE.getAllPersons();
-        return GSON.toJson(Persons);
-
-    }
-
-    @Path("hobbiesIn/{name}")
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
-    public String getHobbiesByPersonName(@PathParam("name") String name) {
-        List<Person> hobbies = FACADE.getHobbiesByPersonName(name);
-        return GSON.toJson(hobbies);
-
-    }
-
-    @Path("name/{name}")
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
-    public String getPersonByName(@PathParam("name") String name) {
-        List<Person> Person = FACADE.getPersonByName(name);
-        return GSON.toJson(Person);
-    }
-
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     public void create(Person entity) {
         throw new UnsupportedOperationException();
     }
 
-    @DELETE
-    @Path("{id}")
+    @GET
+    @Path("all")
     @Produces({MediaType.APPLICATION_JSON})
-    public void delete(@PathParam("id") int id) {
-        persons.remove(id);
-        return "{}";
+    public String getAllEmployees() {
+        return GSON.toJson(new PersonsDTO(FACADE.getAllPersons()));
     }
 
-    @POST
-    @Path("{id}")
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_JSON})
-    public String editPerson(String personAsJson, @PathParam("id") int id) {
-        List<Person> psj = FACADE.getPersonByName(personAsJson);
-        return GSON.toJson(psj);
-        PersonDTO person = GSON.fromJson(person, PersonDTO.class);
-        //Fetch the Car Entity using the provided ID, make the changes
-        //received in the provided DTO and merge it back
-        //Convert the edited Entity object back into a DTO
-        //person = //Make CarDTO from persisted Car
-        return Response.ok(person).build();
-
-    }  
-    
-    @POST
-    @Path("{id}")
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_JSON})
-    public String addPerson(String personAsJson, @PathParam("id") int id) {
-        List<Person> psj = FACADE.getPersonByName(personAsJson);
-        return GSON.toJson(psj);
-        PersonDTO person = GSON.fromJson(person, PersonDTO.class);
-        //Fetch the Car Entity using the provided ID, make the changes
-        //received in the provided DTO and merge it back
-        //Convert the edited Entity object back into a DTO
-        //person = //Make CarDTO from persisted Car
-        return Response.ok(person).build();
-
-    }
-
-    @PUT
+    @GET
     @Path("/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public String getEmployeeById(@PathParam("id") int id) throws PersonNotFoundException {
+        Person p = FACADE.getPerson(id);
+        if (p == null) {
+            throw new PersonNotFoundException("No person with provided id found");
+        }
+        return GSON.toJson(p);
+    }
+
+    @Path("add")
+    @POST
+    @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    public void update(Person entity, @PathParam("id") int id) {
-        throw new UnsupportedOperationException();
+    public String add(String person) throws MissingInputException {
+        Person p = GSON.fromJson(person, Person.class);
+        Person pAdded = FACADE.addPerson(p.getFirstName(), p.getLastName(), p.getPhone());
+        if (p == null) {
+            throw new MissingInputException("First Name and/or Last Name is missing");
+        }
+        return GSON.toJson(new PersonDTO(pAdded));
+    }
+
+    @Path("edit")
+    @POST
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    public String edit(String person) throws MissingInputException {
+        Person p = GSON.fromJson(person, Person.class);
+        Person pEdited = FACADE.editPerson(p);
+        if (p == null) {
+            throw new MissingInputException("First Name and/or Last Name is missing");
+        }
+        return GSON.toJson(new PersonDTO(pEdited));
+    }
+
+    @DELETE
+    @Path("/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public String deleteEmployeeById(@PathParam("id") int id) throws PersonNotFoundException {
+        Person p = FACADE.deletePerson(id);
+        if (p == null) {
+            throw new PersonNotFoundException("Could not delete, provided id does not exist");
+        }
+        return GSON.toJson(p);
     }
 }
