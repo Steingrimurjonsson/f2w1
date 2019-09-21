@@ -6,6 +6,7 @@
 package dto;
 
 
+import entities.Address;
 import entities.Person;
 
 /**
@@ -18,20 +19,21 @@ public class PersonDTO {
     private String fName;
     private String lName;
     private String phone;
-   // private String address;
+    private Address address;
 
     public PersonDTO(Person p) {
         this.fName = p.getFirstName();
         this.lName = p.getLastName();
         this.phone = p.getPhone();
         this.id = p.getId();
+        this.address = p.getAddress();
     }
 
     public PersonDTO(String fn, String ln, String phone) {
         this.fName = fn;
         this.lName = ln;
         this.phone = phone;
-        //this.address = address;
+     this.address = address;
     }
 
     public PersonDTO() {
@@ -68,11 +70,12 @@ public class PersonDTO {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-  //  public String getAddress() {
-   //     return address;
-   // }
+    public Address getAddress() {
+        return address;
+    }
 
-  //  public void setAddress(String address) {
-   //     this.address = phone;
-  //  }
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+    
 }

@@ -6,81 +6,23 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
-        <h1>Persons</h1>
+        <h1>Persons use Postman</h1>
 
 
-        <form>
-            <input type="text" id="txt" placeholder="">
-
-            <input type="submit" id="but2" value="GET ALL PERSONS">
-
-        </form>
-
-        <div id="table"></div>
-
-        <script>
-            const txt = document.querySelector("#txt");
-            const table = document.querySelector("#table");
-            const but = document.querySelector("#but");
-            const but2 = document.querySelector("#but2");
-            const butY = document.querySelector("#butY");
-            const butN = document.querySelector("#butN");
-            function userToTable(user) {
-                var tableData = user.map(x => "<tr><td>" + x.id + "</td><td>" + x.fName + "</td><td>" + x.lName + "</td><td>" + x.phone + "</td></tr>");
-                tableData.unshift("<table class=\"table\"><tr><th>ID</th><th>Name</th><th>Year</th><th>Actors</th></tr>")
-                tableData.push("</table>");
-                return tableData.join('');
-            }
-            but.onclick = function (e) {
-                e.preventDefault();
-                let url = "https://ruffsacks.com/f2w1/api/person/" + txt.value;
-                fetch(url)
-                        .then(res => res.json())
-                        .then(data => {
-                            table.innerHTML = userToTable(data);
-                        })
-            }
-
-            but2.onclick = function (e) {
-                e.preventDefault();
-                let url = "https://ruffsacks.com/f2w1/api/person/all";
-                fetch(url)
-                        .then(res => res.json())
-                        .then(data => {
-                            table.innerHTML = userToTable(data);
-
-                        })
-            }
-            butY.onclick = function (e) {
-                e.preventDefault();
-                let url = "https://ruffsacks.com/f2w1/api/person/year" + txt.value;
-                ;
-                fetch(url)
-                        .then(res => res.json())
-                        .then(data => {
-                            table.innerHTML = userToTable(data);
-
-                        })
-            }
-            butN.onclick = function (e) {
-                e.preventDefault();
-                let url = "https://ruffsacks.com/f2w1/api/person/name/" + txt.value;
-                ;
-                fetch(url)
-                        .then(res => res.json())
-                        .then(data => {
-                            table.innerHTML = userToTable(data);
-
-                        })
-            }
-        </script>
-
-
-        <br><br><br><br><br><br><br>
+        <br>
 
         <h1>LINKS TO ASSIGNMENTS!</h1>
-        <a href="https://github.com/Steingrimurjonsson/f2w1">link to github page</a>
-        
+        <a href="https://docs.google.com/document/d/19uS-AiN5uOL1gZvjQsikaFh-zrf5rvPR_hQoDwOzf0Y/edit?usp=sharing">link to Tuesday questions</a><br>
+        <a href="https://github.com/Steingrimurjonsson/jpaRelation">link to github page for Exercises JPA Relations</a><br>
+        <a href="ruffsacks.com/jpaRelation">link to Exercises JPA Relations page</a><br><br>
+
+        <a href="https://github.com/Steingrimurjonsson/f2w1">link to github page for REST with JAX RS and this is the webpage</a><br><br>
+
+        <a href="https://github.com/Steingrimurjonsson/OraJpaCustomer">link to github page for Object Relational Mapping with JPA</a><br>
+        <a href="ruffsacks.com/OraJpaCustomer">link to Object Relational Mapping with JPA page</a><br><br>
+
+
+
 
 
 

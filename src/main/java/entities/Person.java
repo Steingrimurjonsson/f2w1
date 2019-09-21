@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,6 +24,7 @@ public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @Column(name = "PERSON_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String firstName;
@@ -33,10 +35,8 @@ public class Person implements Serializable {
     @Temporal(TemporalType.DATE)
     private java.util.Date lastEdited;
 
-    //@OneToOne(cascade = CascadeType.PERSIST)
-   // private Address address; 
-
-   
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Address address;
 
     public String getFirstName() {
         return firstName;
@@ -77,6 +77,7 @@ public class Person implements Serializable {
     public void setLastEdited(Date lastEdited) {
         this.lastEdited = lastEdited;
     }
+
     public Person() {
     }
 
@@ -87,20 +88,40 @@ public class Person implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
     public Person(String firstName, String lastName, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
-       // this.address = address;
+        // this.address = address;
     }
 
     public Person(Person person) {
         this.firstName = person.getFirstName();
         this.lastName = person.getLastName();
         this.phone = person.getPhone();
-      //  this.address = person.getAddress();
+        //  this.address = person.getAddress();
 
     }
+
+    public Person(int id, String firstName, String lastName, String phone, Address address) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.address = address;
+        this.created = new Date();
+        this.lastEdited = new Date();
+    }
+
     @Override
     public String toString() {
         return "Person{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", created=" + created + ", lastEdited=" + lastEdited + '}';

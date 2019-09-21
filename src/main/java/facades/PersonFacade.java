@@ -1,5 +1,8 @@
 package facades;
 
+import Exceptions.MissingInputException;
+import Exceptions.PersonNotFoundException;
+import entities.Address;
 import entities.Person;
 import interfaces.IPersonFacade;
 import java.util.List;
@@ -29,16 +32,32 @@ public class PersonFacade implements IPersonFacade {
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-
     @Override
-    public Person addPerson(String fName, String lName, String phone) {
-        Person p = new Person(fName, lName, phone);
+    public Address getPersonAddress(Address address) throws MissingInputException {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Address> query = em.createQuery("SELECT a FROM Address a WHERE a.city = :city AND a.street = :street  AND a.zip = :zip", Address.class);
+            query.setParameter("city", address.getCity());
+            query.setParameter("street",address.getStreet());
+            query.setParameter("zip", address.getZip());
+            Address foundAddress = (Address) query.getSingleResult();
+            return foundAddress;
+        }catch(Exception ex){
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+    @Override
+    public Person addPerson(String fName, String lName, String phone, Address address) throws MissingInputException {
         EntityManager em = emf.createEntityManager();
         try {
-            em.getTransaction().begin();
-            em.persist(p);
-            em.getTransaction().commit();
-            return p;
+                Address dbAddress = getPersonAddress(address);
+                Person p = new Person(fName, lName, phone);
+                p.setAddress(dbAddress == null ? address : dbAddress);
+                em.merge(p);
+                em.getTransaction().commit();
+                return p;
         } finally {
             em.close();
         }
@@ -103,7 +122,7 @@ public class PersonFacade implements IPersonFacade {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("pu");
         PersonFacade pf = PersonFacade.getPersonFacade(emf);
-        pf.addPerson("NewP", "NewP", "999");
+        //pf.addPerson("NewP", "NewP", "999");
         
         
     }

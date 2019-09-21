@@ -6,7 +6,7 @@
 package rest;
 
 import dto.PersonDTO;
-import entities.Person;
+//import entities.Person;
 import utils.EMF_Creator;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
@@ -45,7 +45,7 @@ public class ResourcePersonTest {
 
     private static final int SERVER_PORT = 7777;
     private static final String SERVER_URL = "http://localhost/api";
-    private static Person p1, p2;
+    //private static Person p1, p2;
 
     private static final String TEST_DB = "jdbc:mysql://localhost:3307/person_test";
 
@@ -83,14 +83,14 @@ public class ResourcePersonTest {
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
-        p1 = new Person("TestGuy1", "TestLN1", "99977");
-        p2 = new Person("TestGuy2", "TestLN2", "66677");
+       // p1 = new Person("TestGuy1", "TestLN1", "99977");
+       // p2 = new Person("TestGuy2", "TestLN2", "66677");
         try {
             em.getTransaction().begin();
             em.createNativeQuery("DELETE FROM PERSON WHERE ID > 0").executeUpdate();
             em.createNativeQuery("ALTER TABLE PERSON AUTO_INCREMENT = 1;").executeUpdate();
-            em.persist(p1);
-            em.persist(p2);
+         //   em.persist(p1);
+         //   em.persist(p2);
             em.getTransaction().commit();
         } finally {
             em.close();
@@ -172,7 +172,7 @@ public class ResourcePersonTest {
     public void testAddPerson2() {
         given()
                 .contentType("application/json")
-                .body(new Person("testNameR2", "testNameRl2", "0987"))
+           //     .body(new Person("testNameR2", "testNameRl2", "0987"))
                 .when()
                 .post("person/add")
                 .then()

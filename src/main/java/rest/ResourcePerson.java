@@ -72,7 +72,7 @@ public class ResourcePerson {
     @Consumes({MediaType.APPLICATION_JSON})
     public String add(String Person) throws MissingInputException {
         Person p = GSON.fromJson(Person, Person.class);
-        Person pAdded = FACADE.addPerson(p.getFirstName(), p.getLastName(), p.getPhone());
+        Person pAdded = FACADE.addPerson(p.getFirstName(), p.getLastName(), p.getPhone(), p.getAddress());
         if (p == null) {
             throw new MissingInputException("First Name and/or Last Name is missing");
         }
